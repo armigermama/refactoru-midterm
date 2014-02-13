@@ -5,20 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>FB Insight</title>
-
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
         <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<body>
+<body style="background-color: silver;">
 
 	<form>
 		Select a file<input type="file" id="data-input">
 		<button id="btn">Parse</button>
 	</form>
-	
-	<canvas id="myChart" width="900" height="300"></canvas>
 
-	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<p>Daily Reach and Impression in the last 7 days</p>
+	<div id="reach-impression-time-line-chart" style="width:60%; height:400px;"></div>
+	
+	<p>Clicks by types</p>
+	<div id="clicks-by-stack-chart" style="width:60%; height:400px"></div>
+
+	<p>POsitive Feedback by type by types</p>
+	<div id="feedback-by-line-chart" style="width:60%; height:400px"></div>
+
+
+	<p>Lifetime likes</p>
+	<p></p>
+	<p>Total unlike in the last 7 days</p>
+	<p></p>
+	<p># of engagaed unique user (people)</p>
+	<p></p>
+	<p># of engagement (count)</p>
+	<p></p>
+	<p>Total reach (people)</p>
+	<p></p>
+	<p>Total Impression (count)</p>
+	<p></p>
+
+
+	<!-- <canvas id="reach-impression-time-line-chart" width="900" height="300"></canvas> -->
+
+	<p>Weekly Overview</p>
+	<!-- <canvas id="reach-impression-total-bar-chart" width="500" height="500"></canvas> -->
+	<p>Reach per day</p>
+	<p></p>
+	<p>Impression per day</p>
+	<p></p>
+	<p># of Impression per Reach</p>
+	<p></p>
+
+	 <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
 	 <script src="jquery.parse.min.js"></script>
 	 <script src="Chart.js"></script>
 	 <script src="utility.js"></script>	 
