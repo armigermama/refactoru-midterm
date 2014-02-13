@@ -57,6 +57,17 @@
     return ary;
   };
 
+  // function to take two arrays of numbers WITH EQUAL LENGTH
+  // devide each number from 1st ary by 2nd ary,
+  // return a new array of number of equal length.
+  var arynumDevidedByArynum = function(arynum1, arynum2){
+    var arynum = [];
+    for (var i=0; i<arynum1.length; i++){
+      arynum.push( Math.round((arynum1[i]/arynum2[i]) * 10) / 10 )
+    }
+    return arynum;
+  };
+
 /////// Event handlers ///////////////////////////////
 //////////////////////////////////////////////////////
 
@@ -119,6 +130,9 @@
 
       // create array interactions for values to display in charts or DOM elements
 
+      // Impression per Reach:
+      var dailyImpressionPerReachAry = arynumDevidedByArynum(dailyImpressionAry, dailyReachAry);
+
       // most recent likes:
       var lifetimeLikesRecent = lifetimeLikesAry[lifetimeLikesAry.length];
 
@@ -130,6 +144,14 @@
       // Total engaged people of the week:
       var peopleEngagedTotal = dailyPeopleEngagedAry.reduce(function(a,b){
         return a + b;
+      });
+
+      // % of Audience Enagagement = dailyPeopleEngagedAry / dailyReachAry.
+      var pctAudienceEngageAry = arynumDevidedByArynum(dailyPeopleEngagedAry, dailyReachAry);
+
+      // Making negative feedback into negative values for charting:
+      var dailyNegativeMinusAry = map(dailyNegativeAry, function(num){
+        return 0 - num;
       });
 
       // Below are the breakdown for total engagement & clicks:
@@ -180,27 +202,53 @@
           },
           yAxis: [{ //--- Primary yAxis
             title: {
-              text: 'Peopel (Reach)'
-                }
-              }, {  //--- Secondary yAxis
-              title: {
-                      text: 'Count (Impression)'
-                    },
-                    opposite: true
-              }],
-              series: [{
-                  type: 'column',
-                  yAxis: 0,
-                  name: 'Impression',
-                  data: dailyImpressionAry
-              }, {
-                  type: 'line',
-                  yAxis: 1,
-                  name: 'Reach',
-                  data: dailyReachAry
-              }]
-          });
+              text: 'People for Reach & Count for Impression'
+              }
+            }, {  //--- Secondary yAxis
+            title: {
+              text: '# of Impression per Reach'
+            },
+            opposite: true
+          }],
+          plotOptions: {
+            scatter: {
+              dataLabels: {
+                enabled: true,
+                color: '#000',
+                align: 'left',
+                borderRadius: 5,
+                backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                borderWidth: 1,
+                borderColor: '#AAA',
+                y: -6
+              },
+              marker: {
+                radius: 7
+              }
+            }
+          },
+          series: [{
+            type: 'column',
+            yAxis: 0,
+            name: 'Impression',
+            data: dailyImpressionAry
+          }, {
+            type: 'line',
+            yAxis: 0,
+            name: 'Reach',
+            data: dailyReachAry,
+            color: '#e67e22'
+          }, {
+            type: 'scatter',
+            yAxis: 1,
+            name: 'Impression per Reach',
+            data: dailyImpressionPerReachAry,
+            color: '#000'
+          }]
+        });
       });
+
+
 
       $(function () {
         $('#clicks-by-stack-chart').highcharts({
@@ -208,120 +256,87 @@
             text: 'Clicks by types'
           },
           chart: {
-              type: 'column'
+            type: 'column'
           },
           xAxis: {
-              categories: dateAry
+            categories: dateAry
           },
-          
+          yAxis: {
+            endOnTick: false
+          },
           plotOptions: {
-              series: {
-                  stacking: 'normal'
-              }
+            series: {
+              stacking: 'normal'
+            }
           },
           series: [{
-              name: 'Video clicks',
-              data: dailyClicksVideoAry
+            name: 'Video clicks',
+            data: dailyClicksVideoAry
           }, {
-              name: 'Photo clicks',
-              data: dailyClicksPhotoAry
+            name: 'Photo clicks',
+            data: dailyClicksPhotoAry
           }, {
-              name: 'Share clicks',
-              data: dailyClicksLinkAry
+            name: 'Share clicks',
+            data: dailyClicksLinkAry
           }, {
-              name: 'Other clicks',
-              data: dailyClicksOtherAry
+            name: 'Other clicks',
+            data: dailyClicksOtherAry
           }],
           tooltip: {
-              pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage}%)<br/>'
+            pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage: 1f}%)<br/>'
           }
         });
       });
 
       $(function () {
-        $('#feedback-by-line-chart').highcharts({
+        $('#feedback-by-column-chart').highcharts({
           title: {
-            text: 'Clicks by types'
-          },
-          chart: {
-              type: 'line'
+            text: 'Feedbackss by types'
           },
           xAxis: {
-              categories: dateAry
+            categories: dateAry
           },
+          yAxis: [{ //--- Primary yAxis
+            title: {
+              text: 'Count of Positive Feedbacks'
+                }
+              }, {  //--- Secondary yAxis
+            title: {
+              text: 'Count of Negative Feedbacks'
+            },
+            opposite: true
+          }],
           series: [{
-              name: 'Likes',
-              data: dailyPositiveLikeAry 
+            type: 'column',
+            name: 'Likes',
+            yAxis: 0,
+            data: dailyPositiveLikeAry 
           }, {
-              name: 'Comments',
-              data: dailyPositiveCommentAry 
+            type: 'column',
+            name: 'Comments',
+            yAxis: 0,
+            data: dailyPositiveCommentAry 
           }, {
-              name: 'Shares',
-              data: dailyPositiveLinkAry 
+            type: 'column',
+            name: 'Shares',
+            yAxis: 0,
+            data: dailyPositiveLinkAry 
           }, {
-              name: 'Answers',
-              data: dailyPositiveAnswerAry 
-          }, {
-              name: 'Claims',
-              data: dailyPositiveClaimAry 
+            type: 'line',
+            name: 'Negative',
+            yAxis: 1,
+            data: dailyNegativeAry,
+            color: '#F00'
           }],
           tooltip: {
-              pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage}%)<br/>'
+            pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage: 1f}%)<br/>'
           }
         });
       });
 
-      //  Create line chart for Reach/Impression over per day
-      // get the context of our canvas with jQuery,  and call the getContext("2d") method on that.
-      // var ctx1 = $("#reach-impression-time-line-chart").get(0).getContext("2d");
-
-      // var reachImpressionLineData = {
-      //   labels : dateAry,
-      //   datasets : [
-      //     {
-      //       fillColor : "rgba(220,220,220,0.5)",
-      //       strokeColor : "rgba(220,220,220,1)",
-      //       pointColor : "rgba(220,220,220,1)",
-      //       pointStrokeColor : "#fff",
-      //       data : dailyImpressionAry
-      //     },
-      //     {
-      //       fillColor : "rgba(151,187,205,0.5)",
-      //       strokeColor : "rgba(151,187,205,1)",
-      //       pointColor : "rgba(151,187,205,1)",
-      //       pointStrokeColor : "#fff",
-      //       data : dailyReachAry
-      //     }
-      //   ]
-      // }
-
-      // new Chart(ctx1).Line(reachImpressionLineData, reachImpressionLineOptions); 
-
-      // // Create bar chart for total reach imrpession over the week
-      // var ctx2 = $("#reach-impression-total-bar-chart").get(0).getContext("2d");
-
-      // var reachImpressionBarData = {
-      //   labels : ["Reach","Impression"],
-      //   datasets : [
-      //     {
-      //       fillColor : "rgba(220,220,220,0.5)",
-      //       strokeColor : "rgba(220,220,220,1)",
-      //       data : [10]
-      //     },
-      //     {
-      //       fillColor : "rgba(151,187,205,0.5)",
-      //       strokeColor : "rgba(151,187,205,1)",
-      //       data : [5]
-      //     }
-      //   ]
-      // };
-
-      // new Chart(ctx2).Bar(reachImpressionBarData);
-
+      
       } /* end bracket for parse complete function*/
     });
-
-    // Sort result by date ////////
 
 
   }); /* $('#data-input') closer*/
