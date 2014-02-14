@@ -22,6 +22,7 @@ $(function(){
     "Daily: The number of times people have given positive feedback to your Page, by type. (Total Count) - rsvp",
     "Daily: The number of people who visited your Page, or saw your Page or one of its posts in news feed or ticker. These can be people who have liked your Page and people who haven't. (Unique Users)",
     "Daily: The number of impressions seen of any content associated with your Page. (Total Count)",
+    "Daily: The number of times people have given negative feedback to your Page, by type. (Total Count) - unlike_page_clicks"
     ];
 
   // The constructor/Class for dashboard creation encapsulation 
@@ -31,6 +32,8 @@ $(function(){
     // this.resultAry = filterObjKeyPairFunc(results.results.rows, keyArray);  
     this.resultAry = filterObjKeyPairFunc(results.results.rows, keyArray);                                                               
       // sort by Date ascendent
+    this.check = mapObjKeyValFunc(this.resultAry, "Daily: The number of times people have given negative feedback to your Page, by type. (Total Count) - unlike_page_clicks");
+    // console.log('check',this.check);  
     this.resultAry.sort(compare);
     this.dateAry = mapObjKeyValFunc(this.resultAry, "Date");
     this.lifetimeLikesAry = mapObjKeyValFunc(this.resultAry, "Lifetime: The total number of people who have liked your Page. (Unique Users)");
@@ -42,6 +45,8 @@ $(function(){
     this.dailyClicksPhotoAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of clicks on any of your content, by type. Clicks generating stories are included in &quot;Other Clicks.&quot; Stories generated without clicks on page content (e.g., liking the page in Timeline) are not included. (Total Count) - photo view");
     this.dailyClicksVideoAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of clicks on any of your content, by type. Clicks generating stories are included in &quot;Other Clicks.&quot; Stories generated without clicks on page content (e.g., liking the page in Timeline) are not included. (Total Count) - video play");
     this.dailyNegativeAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of times people have given negative feedback to your Page. (Total Count)");
+    // console.log('this.dailyNegativeAry',this.dailyNegativeAry);
+    // console.log('this.dailyUnlikeAry',this.dailyUnlikeAry);
     this.dailyPositiveAnswerAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of times people have given positive feedback to your Page, by type. (Total Count) - answer");
     this.dailyPositiveClaimAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of times people have given positive feedback to your Page, by type. (Total Count) - claim");
     this.dailyPositiveCommentAry = mapObjKeyValFunc(this.resultAry, "Daily: The number of times people have given positive feedback to your Page, by type. (Total Count) - comment");
@@ -53,27 +58,62 @@ $(function(){
     // Impression per Reach:
     this.dailyImpressionPerReachAry = arynumDevidedByArynum(this.dailyImpressionAry, this.dailyReachAry);
     // most recent likes:
-    this.lifetimeLikesRecent = this.lifetimeLikesAry[this.lifetimeLikesAry.length];
+    this.lifetimeLikesRecent = this.lifetimeLikesAry[this.lifetimeLikesAry.length-1];
+    // Total reach of the week:
+    this.reachTotal = this.dailyReachAry.reduce(function(a,b){
+        return a + b;
+      });
+    // Total impression of the week:
+    this.impressionTotal = this.dailyImpressionAry.reduce(function(a,b){
+        return a + b;
+      });
     // Total unlike of the week:
-    this.unlikeTotal = SumAnAryFunc(this.dailyUnlikeAry);
+    this.unlikeTotal = this.dailyUnlikeAry.reduce(function(a,b){
+        return a + b;
+      });
     // Total engaged people of the week:
-    this.peopleEngagedTotal = SumAnAryFunc(this.dailyPeopleEngagedAry);
+    this.peopleEngagedTotal = this.dailyPeopleEngagedAry.reduce(function(a,b){
+        return a + b;
+      });
     // % of Audience Enagagement = dailyPeopleEngagedAry / dailyReachAry.
     this.pctAudienceEngageAry = arynumDevidedByArynum(this.dailyPeopleEngagedAry, this.dailyReachAry);
-    // Total count of engagements & clicks of the week:
-    this.engagementClicksTotal = 
-      SumAnAryFunc(this.dailyClicksTotalAry) + 
-      SumAnAryFunc(this.dailyNegativeAry) + 
-      SumAnAryFunc(this.dailyPositiveAnswerAry) + 
-      SumAnAryFunc(this.dailyPositiveClaimAry) + 
-      SumAnAryFunc(this.dailyPositiveCommentAry) + 
-      SumAnAryFunc(this.dailyPositiveLikeAry) + 
-      SumAnAryFunc(this.dailyPositiveLinkAry) + 
-      SumAnAryFunc(this.dailyPositiveRsvpAry);
-      console.log('this.dailyClicksVideoAry',this.dailyClicksVideoAry);
+    // Below are the breakdown for total engagement & clicks:
+        // Total engagement & clicks of the week:
+        this.clicksTotal = this.dailyClicksTotalAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total negative feedback counts of the week:
+        this.negativeTotal = this.dailyNegativeAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in ANSWER of the week:
+        this.positiveAnswerTotal = this.dailyPositiveAnswerAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in CLAIM of the week:
+        this.positiveClaimTotal = this.dailyPositiveClaimAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in COMMENT of the week:
+        this.positiveCommentTotal = this.dailyPositiveCommentAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in LIKE of the week:
+        this.positiveLikeTotal = this.dailyPositiveLikeAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in LINK/SHARE of the week:
+        this.positiveLinkTotal = this.dailyPositiveLinkAry.reduce(function(a,b){
+          return a + b;
+        });
+        // Total positive feedback in RSVP of the week:
+        this.positiveRsvpTotal = this.dailyPositiveRsvpAry.reduce(function(a,b){
+          return a + b;
+        });
+      // Total count of engagements & clicks of the week:
+      this.engagementClicksTotal = this.clicksTotal + this.negativeTotal + this.positiveAnswerTotal + this.positiveClaimTotal +
+        this.positiveCommentTotal + this.positiveCommentTotal + this.positiveLikeTotal + this.positiveLinkTotal + this.positiveRsvpTotal;
   };
-
-  // var myDashboard = new Dashboard(dateAry, lifetimeLikesAry, dailyUnlikeAry, dailyPeopleEngagedAry, dailyClicksTotalAry, dailyClicksLinkAry, dailyClicksOtherAry, dailyClicksPhotoAry, dailyClicksVideoAry, dailyNegativeAry, dailyPositiveCommentAry, dailyPositiveLikeAry, dailyPositiveLinkAry, dailyPositiveAnswerAry, dailyPositiveRsvpAry, dailyPositiveClaimAry, dailyReachAry, dailyImpressionAry);
 
 /////// Functions///////////////////////////////
 ////////////////////////////////////////////////
@@ -117,11 +157,11 @@ $(function(){
     return arynum;
   };
 
-  var SumAnAryFunc = function(ary){
-    ary.reduce(function(a,b){
-        return a + b;
-      });
-  };
+  // var SumAnAryFunc = function(ary){
+  //   ary.reduce(function(a,b){
+  //       return a + b;
+  //     });
+  // };
 
   //Function to sort by Date, for resultAry
   function compare (a,b) {
@@ -134,14 +174,30 @@ $(function(){
         return 0;
   };
 
+  function mkFormatter(num){
+    if (num > 999999){
+      return (num/1000000).toFixed(1) + 'M';
+    } else if (num > 999){
+      return (num/1000).toFixed(1) + 'K';
+    }
+    return num;
+  }
+
   var instantiateFunc = function(cls,aryObj){
     return new cls(aryObj);
   };
 
   // Function for the click handler on clicking the ACTION button
   Dashboard.prototype.chartFunc = function(e){
-    // Using Papa Parse to parse CSV file into array of objects, using default config. ////////////
     // Chart 1: reach impression
+    Highcharts.setOptions({
+        chart: {
+            style: {
+                fontFamily: 'museo-slab'
+            }
+        }
+    });
+    
     $('#reach-impression-time-line-chart').highcharts({
       title: {
         text: 'Reach Impression'
@@ -172,7 +228,7 @@ $(function(){
             y: -6
           },
           marker: {
-            radius: 7
+            radius: 5
           }
         }
       }, 
@@ -244,8 +300,7 @@ $(function(){
         data: this.dailyClicksVideoAry
       }],
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage}%)<br/>',
-        percentageDecimals: 1
+        pointFormat: '{series.name}: <b>{point.y}</b> <br/>',
       }
     });
     // Chart 3: feedbacks by type
@@ -289,17 +344,28 @@ $(function(){
         color: '#F00'
       }],
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage}%)<br/>',
-        percentageDecimals: 1
+        pointFormat: '{series.name}: <b>{point.y}</b><br/>',
       }
     });
+  // Datapoints
+  $('#datapoint-likes').text(mkFormatter(this.lifetimeLikesRecent));
+  $('#datapoint-unlikes').text(mkFormatter(this.unlikeTotal));
+  $('#datapoint-engage-user').text(mkFormatter(this.peopleEngagedTotal));
+  $('#datapoint-engage-count').text(mkFormatter(this.engagementClicksTotal));
+  $('#datapoint-reach').text(mkFormatter(this.reachTotal));
+  $('#datapoint-impression').text(mkFormatter(this.impressionTotal));
+  $('.data-duration').text(this.dateAry.length);
+
+  // console.log(this.unlikeTotal);  
   };
 
   /////// Event handlers ///////////////////////////////
   //////////////////////////////////////////////////////
 
-  $('#btn').on('click',function(e){
+  $('#data-btn').on('click',function(e){
     e.preventDefault();
+    $('.site-wrapper').addClass('hide');
+    $('.dashboard-container').removeClass('hide');
     // Using Papa Parse to parse CSV file into array of objects, using default config. ////////////
     $('#data-input').parse({
       config: {
@@ -309,7 +375,6 @@ $(function(){
         preview: 0,
         step: undefined
       },
-      // further process of the raw data to save into the global variable resultAry. See notes below for more detail. ////////
       complete: function(results){  
         var myDashboard = new Dashboard(results);
         myDashboard.chartFunc();

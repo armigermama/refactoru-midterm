@@ -3,59 +3,120 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>FB Insight</title>
-		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script src="http://code.highcharts.com/highcharts.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+        <title>Simply Facebook Insights</title>
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<body style="background-color: silver;">
+<body>
+	<div class="site-wrapper">
+		<div class="site-wrapper-inner">
+			<div class="cover-container">
 
-	<form>
-		Select a file<input type="file" id="data-input">
-		<button id="btn">Parse</button>
-	</form>
+				<div class="inner cover">
+					<div class="cover-sub-container">
+						<h1 class="cover-heading">Simply Facebook Insights </h1><span class="lead">is a light weight web app that takes your FB Insight CSV download file and turns it into a interactive dashboard filled with data points and charts to guide you to the health of your FB page.</span>
+					</div>
+					<div class="cover-sub-container">
+						<h1 class="instruction-heading"><small>Instruction</small></h1>
+						<p class="instruction-lead">Export a most current Facebook Insight file in <strong>CSV format</strong>, following the metrics below:</p>
+						<ul>
+							<li><strong>Select Data Range:</strong> Starts today and ends in 7 to 28 days</li>
+								<ul><li>7 to 14 days produce the best viewing results</li></ul>
+							<li><strong>Select data type:</strong> Page level data</li>
+							<li><strong>Select export type:</strong> New</li>
+							<li><strong>Select file format:</strong> Comma-spearated values (.csv)</li>
+						</ul>
+					</div>
+					<form class="data-form">
+						<div class="form-group">
+							<label>Upload your Facebook Insight Export .csv here</label>
+							<input type="file" id="data-input">
+						</div>
+						<button id="data-btn" class="btn btn-lg">Show me Data</button>
+					</form>
+				</div>
 
-	<p>Daily Reach and Impression in the last 7 days</p>
-	<div id="reach-impression-time-line-chart" style="width:60%; height:400px; border-radius: 30px;"></div>
+				<div class="mastfoot">
+					<div class="inner">
+						<p>Simply Facebook Insights for <a herf="http://www.refactoru.com">RefactorU MidTerm Project</a> by <a href="http://www.linkedin.com/ronichen">Roni Chen</a>.</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+<!-- reserved codes-->
+
+	<div class="dashboard-container hide">
+
+		<div class="row">
+			<div class="col-md-8">
+				<div id="reach-impression-time-line-chart"></div>
+			</div>
+			<div class="col-md-2">
+				<div id="container-reach">
+					<p id="datapoint-reach"></p>
+				</div>
+				<h4>Total reach for the last <span class="data-duration"></span> days</h4>
+				<p></p>
+			</div>
+			<div class="col-md-2">
+				<div id="container-impression">
+					<p id="datapoint-impression"></p>
+				</div>
+				<h4>Total impression for the last <span class="data-duration"></span> days</h4>
+				<p></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+				<div id="clicks-by-stack-chart"></div>
+			</div>
+			<div class="col-md-2">
+				<div id="container-engage-user">
+					<p id="datapoint-engage-user"></p>
+				</div>
+				<h4>Total engaged users for the last <span class="data-duration"></span> days</h4>
+				<p></p>
+			</div>
+			<div class="col-md-2">
+				<div id="container-engage-count">
+					<p id="datapoint-engage-count"></p>
+				</div>
+				<h4>Total engagement count for the last <span class="data-duration"></span> days</h4>
+				<p></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+				<div id="feedback-by-column-chart"></div>
+			</div>
+			<div class="col-md-2">
+				<div id="container-likes">
+					<span id="datapoint-likes"></span>
+				</div>
+				<h4>Total users who like your page on most recent date</h4>
+				<span></span>
+			</div>
+			<div class="col-md-2">
+				<div id="container-unlikes">
+					<span id="datapoint-unlikes"></span>
+				</div>
+				<h4>Total Unlikes for the last <span class="data-duration"></span> days</h4>
+				<span></span>
+			</div>
+		</div>
+
+	</div>
 	
-	<p>Clicks by types</p>
-	<div id="clicks-by-stack-chart" style="width:60%; height:600px border-radius: 30px;"></div>
-
-	<p>POsitive Feedback by type by types</p>
-	<div id="feedback-by-column-chart" style="width:60%; height:600px border-radius: 30px;"></div>
-
-
-	<p>Lifetime likes</p>
-	<p></p>
-	<p>Total unlike in the last 7 days</p>
-	<p></p>
-	<p># of engagaed unique user (people)</p>
-	<p></p>
-	<p># of engagement (count)</p>
-	<p></p>
-	<p>Total reach (people)</p>
-	<p></p>
-	<p>Total Impression (count)</p>
-	<p></p>
-
-
-	<!-- <canvas id="reach-impression-time-line-chart" width="900" height="300"></canvas> -->
-
-	<p>Weekly Overview</p>
-	<!-- <canvas id="reach-impression-total-bar-chart" width="500" height="500"></canvas> -->
-	<p>Reach per day</p>
-	<p></p>
-	<p>Impression per day</p>
-	<p></p>
-	<p># of Impression per Reach</p>
-	<p></p>
-
-	 <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
-	 <script src="jquery.parse.min.js"></script>
-	 <script src="utility.js"></script>	 
-	 <script src="main.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="jquery.parse.min.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="utility.js"></script>	 
+	<script src="main.js"></script>
 </body>
 </html>

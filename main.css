@@ -2,3 +2,229 @@
 *, *:before, *:after {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
  }
+
+@font-face {
+	font-family: museo-slab;
+	src: url(font/Museo_Slab_500_2-webfont.woff);
+}
+
+ /*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #000;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #fff;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #000;
+  border: 1px solid #000;
+}
+
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+
+}
+body {
+  color: #000;
+  text-shadow: 0 1px 3px rgba(255,255,255,.5);
+  box-shadow: inset 0 0 100px rgba(255,255,255,.5);
+  font-family: museo-slab;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  width: 100%;
+  min-height: 100%;
+  background-image: url('background.jpg');
+  background-color: #ccc;
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px;
+}
+
+/*
+ * Cover
+ */
+.cover-heading,
+.lead {
+	display: inline;
+}
+
+.cover {
+  padding: 30px 50px;
+}
+.cover .btn {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.cover-sub-container,
+.data-form {
+	padding: 20px 0;
+}
+
+.data-form {
+	width: 60%;
+}
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  color: rgba(0,0,0,.5);
+}
+
+.mastfoot {
+	text-align: center;
+}
+
+/*
+* Dashboard
+*/
+
+.hide {
+	z-index: -1;
+}
+
+.dashboard-container {
+	background-color: #fff;
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+#feedback-by-column-chart,
+#clicks-by-stack-chart,
+#reach-impression-time-line-chart {
+
+}
+
+.col-md-2 {
+	padding: 5px;
+	text-align: center;
+	padding-top: 100px;
+}
+
+.col-md-2 >h4 {
+	display: inline-block;
+	text-align: center;
+	width: 60%;
+	font-family: museo-slab;
+
+}
+
+#container-likes,
+#container-unlikes,
+#container-engage-user,
+#container-engage-count,
+#container-reach,
+#container-impression {
+	height: 150px;
+	width: 150px;
+	border-radius: 75px;
+	line-height: 158px;
+	margin: 0 auto;
+}
+
+#container-likes {
+	background-color: #2abb67;
+}
+#container-unlikes {
+	background-color: #c0392b;
+}
+#container-engage-user {
+	background-color: #2980b9;
+}
+#container-engage-count {
+	background-color: #f39c12;
+}
+#container-reach {
+	background-color: #8e44ad;
+}
+#container-impression {
+	background-color: #2c3e50;
+}
+
+
+#datapoint-likes,
+#datapoint-unlikes,
+#datapoint-engage-user,
+#datapoint-engage-count,
+#datapoint-reach,
+#datapoint-impression {
+	display: inline-block;
+	color: #fff;
+	font-size: 28px;
+	font-weight: bold;
+	vertical-align: middle;
+	line-height: normal;
+	font-family: museo-slab
+
+}
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+  .mastfoot {
+    position: fixed;
+    bottom: 0;
+  }
+  /* Start the vertical centering */
+  .site-wrapper-inner,
+  .masthead,
+  .cover-container {
+    vertical-align: middle;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 90%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 1200px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px;
+  }
+}
