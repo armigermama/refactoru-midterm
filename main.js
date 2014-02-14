@@ -113,6 +113,8 @@ $(function(){
       // Total count of engagements & clicks of the week:
       this.engagementClicksTotal = this.clicksTotal + this.negativeTotal + this.positiveAnswerTotal + this.positiveClaimTotal +
         this.positiveCommentTotal + this.positiveCommentTotal + this.positiveLikeTotal + this.positiveLinkTotal + this.positiveRsvpTotal;
+    this.pctEngager = ((this.peopleEngagedTotal/this.reachTotal) * 100).toFixed(1);
+    this.pctEngagement = ((this.engagementClicksTotal/this.impressionTotal) * 100).toFixed(1);
   };
 
 /////// Functions///////////////////////////////
@@ -355,6 +357,8 @@ $(function(){
   $('#datapoint-reach').text(mkFormatter(this.reachTotal));
   $('#datapoint-impression').text(mkFormatter(this.impressionTotal));
   $('.data-duration').text(this.dateAry.length);
+  $('#pct-engager').html(this.pctEngager + '%<br> reach<br>engaged')
+  $('#pct-engagement').html(this.pctEngagement + '%<br> impression<br>engaged')
 
   // console.log(this.unlikeTotal);  
   };
